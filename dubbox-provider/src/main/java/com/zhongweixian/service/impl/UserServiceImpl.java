@@ -1,8 +1,8 @@
 package com.zhongweixian.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.uccc.entity.Message;
-import com.uccc.service.UserService;
+import com.zhongweixian.entity.Message;
+import com.zhongweixian.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

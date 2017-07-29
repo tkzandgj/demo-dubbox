@@ -1,7 +1,7 @@
 package com.zhongweixian.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.uccc.service.UserService;
+import com.zhongweixian.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;

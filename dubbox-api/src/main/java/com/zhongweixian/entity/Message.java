@@ -1,4 +1,4 @@
-package com.uccc.entity;
+package com.zhongweixian.entity;
 
 import java.io.Serializable;
 import java.util.Date;

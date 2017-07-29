@@ -1,6 +1,6 @@
-package com.uccc.service;
+package com.zhongweixian.service;
 
-import com.uccc.entity.Message;
+import com.zhongweixian.entity.Message;
 
 import java.util.List;
 
