@@ -1,7 +1,7 @@
 syntax = "proto3";
 package org.tio.examples.im.common.packets;
 
-option java_package = "org.tio.examples.im.common.packets";  //设置java对应的package
+option java_package = "com.zhongweixian.entity";  //设置java对应的package
 option java_multiple_files = true;                           //建议设置为true，这样会每个对象放在一个文件中，否则所有对象都在一个java文件中
 
 //类型
