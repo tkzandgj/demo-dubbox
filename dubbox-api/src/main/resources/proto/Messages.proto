@@ -1,0 +1,170 @@
+syntax = "proto3";
+package src.main.proto;
+
+option java_package = "com.zhongweixian.entity";  //设置java对应的package
+option java_multiple_files = true;                           //建议设置为true，这样会每个对象放在一个文件中，否则所有对象都在一个java文件中
+option java_generic_services = true;
+//类型
+enum DeviceType {
+    DEVICE_TYPE_UNKNOW = 0;
+    DEVICE_TYPE_PC = 1;             //PC
+    DEVICE_TYPE_ANDROID = 2;        //安卓
+    DEVICE_TYPE_IOS = 3;            //IOS
+}
+
+enum Command {
+    COMMAND_UNKNOW = 0;
+    COMMAND_HANDSHAKE_REQ = 1; //握手请求，含http的websocket握手请求
+    COMMAND_HANDSHAKE_RESP = 2; //握手响应，含http的websocket握手响应
+    COMMAND_AUTH_REQ = 3; //鉴权请求
+    COMMAND_AUTH_RESP = 4; // 鉴权响应
+    COMMAND_JOIN_GROUP_REQ = 5; //申请进入群组
+    COMMAND_JOIN_GROUP_RESP = 6; //申请进入群组响应
+    COMMAND_JOIN_GROUP_NOTIFY_RESP = 7; //进入房间通知
+    COMMAND_CHAT_REQ = 8; //聊天请求
+    COMMAND_CHAT_RESP = 9; //聊天响应
+    COMMAND_START_SHOW_REQ = 10; //开播请求
+    COMMAND_START_SHOW_RESP = 11; //开播响应
+    COMMAND_END_SHOW_REQ = 12; //停播请求
+    COMMAND_END_SHOW_NOTIFY_RESP = 13; //停播通知
+    COMMAND_HEARTBEAT_REQ = 14; //心跳请求
+    COMMAND_CLOSE_REQ = 15; //关闭请求
+}
+
+/**
+ * 鉴权请求
+ */
+message AuthReqBody {
+    int64 cts = 1;//消息发送时间
+    string deviceId = 2;// device id(手机设备id)
+    string token = 3;
+    DeviceType deviceType = 4;//clienttype客户端类型1-pc 2-android 3-ios
+    string cid = 5;//渠道号
+    string appVersion = 6;//app版本号
+    string deviceInfo = 7;//手机型号信息，譬如华为某型号
+    int64 seq = 8;//序列号
+    string sign = 9;//签名
+}
+
+/**
+ * 鉴权响应
+ */
+message AuthRespBody {
+    int64 cts = 1;//消息发送时间
+}
+
+/**
+ * 加入群组请求
+ */
+message JoinReqBody {
+    int64 cts = 1;//消息发送时间
+    string group = 2;
+}
+
+
+/**
+ * 加入群组申请的结果
+ */
+enum JoinGroupResult {
+    JOIN_GROUP_RESULT_UNKNOW = 0;//不允许进入，原因为其它
+    JOIN_GROUP_RESULT_OK = 1;//允许进入
+    JOIN_GROUP_RESULT_NOT_EXIST = 2;//组不存在
+    JOIN_GROUP_RESULT_GROUP_FULL = 3;//组满
+    JOIN_GROUP_RESULT_IN_BACKLIST = 4;//在黑名单中
+    JOIN_GROUP_RESULT_TAKEOUTED = 5;//被踢
+}
+
+/**
+ * 加入群组响应
+ */
+message JoinRespBody {
+    int64 cts = 1;//消息发送时间
+    JoinGroupResult result = 2;
+    string group = 3;
+}
+
+/**
+ * 聊天类型
+ */
+enum ChatType {
+    CHAT_TYPE_UNKNOW = 0;//未知
+    CHAT_TYPE_PUBLIC = 1;//公聊
+    CHAT_TYPE_PRIVATE = 2;//私聊
+}
+enum MessagesType{
+    TEXT = 0; //普通文本消息
+    LINK_TEXT = 1; //链接消息
+    LINK_IMGAE = 2; //图片链接消息
+    LINK_PAY = 3; //支付消息
+    RED_PAY = 4;  //红包消息
+
+}
+
+/**
+ * 聊天请求
+ */
+message MessagesReqBody {
+    int64 cts = 1;//消息发送时间
+    ChatType chatType = 2; //聊天类型
+    string text = 3; //聊天内容
+    string group = 4; //目标组id
+    int32 fromId = 5; //发送者ID，
+    int32 toId = 6; //接受者ID
+    MessagesType messagesType = 7; //消息类型
+}
+
+/**
+ * 聊天响应(列表)
+ */
+message MessagesRespBody {
+    repeated MessageRespBody messageRespBody = 1; //接收消息 (List)
+}
+/**
+* 接收消息
+*/
+message MessageRespBody {
+    int64 cts = 1;
+    int32 fromId = 2;
+    string text = 3;
+    ChatType type = 4; //聊天类型
+    int32 toId = 5; //目标用户id
+    string group = 6; //目标组id
+    MessagesType messagesType = 7; //消息类型
+}
+
+
+
+
+/**
+ * 开始直播请求
+ */
+message BeginToLiveReqBody {
+    int64 cts = 1;//消息发送时间
+}
+
+/**
+ * 开始直播响应
+ */
+message BeginToLiveRespBody {
+    int64 cts = 1;//消息发送时间
+    int64 liveid = 2;       //本次直播id
+    string rtmppublishurl = 3;  //rtmp推流地址
+    string rtmpliveurl = 4;  //rtmp播放地址
+}
+
+/**
+ * 结束直播请求
+ */
+message EndLiveReqBody {
+    int64 cts = 1;//消息发送时间
+}
+
+/**
+ * 结束直播响应
+ */
+message EndLiveRespBody {
+    int64 cts = 1;//消息发送时间
+    int64 liveid = 2;       //本次直播id
+}
+
+

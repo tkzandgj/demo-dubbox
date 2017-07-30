@@ -1,0 +1,13 @@
+syntax = "proto3";
+package src.main.proto;
+
+option java_package = "com.zhongweixian.service";  //设置java对应的package
+option java_multiple_files = true;                           //建议设置为true，这样会每个对象放在一个文件中，否则所有对象都在一个java文件中
+option java_generic_services = true;
+
+
+
+
+service UserService {
+    rpc sendMessage(MessagesReqBody) returns(MessagesReqBody);
+}
