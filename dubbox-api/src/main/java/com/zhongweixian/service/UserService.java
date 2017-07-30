@@ -1,6 +1,7 @@
 package com.zhongweixian.service;
 
-import com.zhongweixian.entity.Message;
+import com.zhongweixian.entity.MessagesReqBody;
+import com.zhongweixian.entity.MessagesRespBody;
 
 import java.util.List;
 
@@ -9,11 +10,11 @@ import java.util.List;
  */
 public interface UserService {
 
-    void sendMessage(String from , String to , String body);
+    void sendMessage(MessagesReqBody messagesReqBody);
 
-    List<Message> getMessage(String username);
+    List<MessagesRespBody> getMessage(Integer uid);
 
-    List<Message> getMessage(String username , Long level);
+    List<MessagesRespBody> getMessage(Integer uid , Long level);
 
 
 }

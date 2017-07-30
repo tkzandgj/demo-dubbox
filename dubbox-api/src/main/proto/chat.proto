@@ -1,5 +1,5 @@
 syntax = "proto3";
-package org.tio.examples.im.common.packets;
+package src.main.proto;
 
 option java_package = "com.zhongweixian.entity";  //设置java对应的package
 option java_multiple_files = true;                           //建议设置为true，这样会每个对象放在一个文件中，否则所有对象都在一个java文件中
@@ -91,30 +91,39 @@ enum ChatType {
 	CHAT_TYPE_PUBLIC = 1;//公聊
 	CHAT_TYPE_PRIVATE = 2;//私聊
 }
+enum MessagesType{
+	TEXT = 0; //普通文本消息
+	LINK_TEXT = 1; //链接消息
+	LINK_IMGAE = 2; //图片链接消息
+	LINK_PAY = 3; //支付消息
+	RED_PAY = 4;  //红包消息
+
+}
+
 /**
  * 聊天请求
  */
-message ChatReqBody {
+message MessagesReqBody {
 	int64 time = 1;//消息发送时间
-	ChatType type = 2; //聊天类型
+	ChatType chatType = 2; //聊天类型
 	string text = 3; //聊天内容
 	string group = 4; //目标组id
-	int32 toId = 5; //目标用户id，
-	string toNick = 6; //目标用户nick
+	int32 fromId = 5; //发送者ID，
+	int32 toId = 6; //接受者ID
+	MessagesType messagesType = 7; //消息类型
 }
 
 /**
  * 聊天响应
  */
-message ChatRespBody {
+message MessagesRespBody {
 	int64 time = 1;//消息发送时间
 	ChatType type = 2; //聊天类型
 	string text = 3; //聊天内容
 	int32 fromId = 4; //发送聊天消息的用户id
-	string fromNick = 5; //发送聊天消息的用户nick
 	int32 toId = 6; //目标用户id
-	string toNick = 7; //目标用户nick
 	string group = 8; //目标组id
+	MessagesType messagesType = 9; //消息类型
 }
 
 
@@ -149,3 +158,5 @@ message EndLiveRespBody {
 	int64 time = 1;//消息发送时间
 	int64 liveid = 2;       //本次直播id
 }
+
+
